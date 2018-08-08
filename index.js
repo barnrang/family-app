@@ -28,8 +28,8 @@ app.get('/times', (req, res) => {
 app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect()
-    const result = await client.query('SELECT * FROM test_table');
-    res.render('pages/db', result);
+    const results = await client.query('SELECT * FROM test_table');
+    res.render('pages/db', results);
     client.release();
   } catch (err) {
     console.error(err);
