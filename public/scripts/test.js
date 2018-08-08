@@ -2,6 +2,7 @@ String.prototype.isEmpty = function() {
     return (this.length === 0 || !this.trim());
 };
 
+
 Vue.component('todo-item', {
   props:['todo'],
   template: '<li class=\'todo-item\'>{{todo.name}}\
