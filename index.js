@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 5000
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString:process.env.DATABASE_URL,
   ssl: true
 });
 
@@ -29,8 +29,7 @@ app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect()
     const result = await client.query('SELECT * FROM test_table');
-    console.log(result)
-    res.render('pages/db', {results: result});
+    res.render('pages/db', {results: result.rows});
     client.release();
   } catch (err) {
     console.error(err);
