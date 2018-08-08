@@ -29,6 +29,7 @@ app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect()
     const result = await client.query('SELECT * FROM test_table');
+    console.log(result)
     res.render('pages/db', {results: result});
     client.release();
   } catch (err) {
