@@ -1,27 +1,105 @@
+:root {
+  --footer-height: 50px;
+}
+
 .jumbotron {
   background: #532F8C;
   color: white;
-  padding-bottom: 80px; }
-  .jumbotron .btn-primary {
-    background: #845ac7;
-    border-color: #845ac7; }
-    .jumbotron .btn-primary:hover {
-      background: #7646c1; }
-  .jumbotron p {
-    color: #d9ccee;
-    max-width: 75%;
-    margin: 1em auto 2em; }
-  .navbar + .jumbotron {
-    margin-top: -20px; }
-  .jumbotron .lang-logo {
-    display: block;
-    background: #B01302;
-    border-radius: 50%;
-    overflow: hidden;
-    width: 100px;
-    height: 100px;
-    margin: auto;
-    border: 2px solid white; }
-    .jumbotron .lang-logo img {
-      max-width: 100%; }
+  padding-bottom: 80px;
+}
 
+.jumbotron .btn-primary {
+  background: #845ac7;
+  border-color: #845ac7;
+}
+
+.jumbotron .btn-primary:hover {
+  background: #7646c1;
+}
+
+.jumbotron p {
+  color: #d9ccee;
+  max-width: 75%;
+  margin: 1em auto 2em;
+}
+
+.navbar+.jumbotron {
+  margin-top: -20px;
+}
+
+.jumbotron .lang-logo {
+  display: block;
+  background: #B01302;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  border: 2px solid white;
+}
+
+.jumbotron .lang-logo img {
+  max-width: 100%;
+}
+
+.context {
+  padding-bottom: var(--footer-height)
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: var(--footer-height);
+  z-index: 1;
+  background-color: #f5f5f5;
+}
+
+#todolist {
+  width: 90%;
+}
+
+.todo-item {
+    cursor: pointer;
+    position: relative;
+    padding: 12px 8px 12px 40px;
+    background: #eee;
+    font-size: 18px;
+    transition: 0.2s;
+
+    /* make the list items unselectable */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.todo-item:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+
+.todo-status {
+  position: absolute;
+  right: 30%;
+  top: 0%;
+  display: block;
+  width: 10%;
+  height: 100%;
+}
+.todo-status.undone {
+  background-color: #f74052;
+}
+
+.todo-status.undone:hover {
+  background-color: #e51429;
+}
+
+.todo-status.done {
+  background-color: #42f445;
+}
+
+.todo-status.done:hover {
+  background-color: #089324;
+}
