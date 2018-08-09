@@ -84,9 +84,12 @@
   position: absolute;
   right: 30%;
   top: 0%;
-  display: block;
+  /* display: block; */
   width: 10%;
   height: 100%;
+  text-align: center;
+  line-height: 100%;
+  vertical-align: 50%;
 }
 .todo-status.undone {
   background-color: #f74052;
@@ -102,4 +105,9 @@
 
 .todo-status.done:hover {
   background-color: #089324;
+}
+
+.people-list{
+  position: absolute;
+  right: 15%;
 }
