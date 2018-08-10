@@ -2,29 +2,29 @@ String.prototype.isEmpty = function() {
     return (this.length === 0 || !this.trim());
 };
 
+Vue.component('v-select', VueSelect.VueSelect);
+
 Vue.component('people-list', {
-  props: ['peopleList'],
-  template: '<select class=\"people-list\">\
-    <option \
-    v-for=\"person in peopleList\"\
-    value=\"person\">\
-    {{person}}</option>\
-    </select>',
+  template: '<v-select multiple class=\"people-list\" :options=\"peopleList\" label=\"name\">\
+    </v-select>',
   computed: {
-    test: function () {
-      console.log(this.peopleList);
+    peopleList: function () {
+      return this.$store.state.peopleList;
     }
   },
   created() {
-    //console.log(this.peopleList);
+    console.log(this.peopleList);
   }
 })
 
 Vue.component('todo-item', {
-  props:['todo', 'peopleList'],
-  template: '<li class=\'todo-item\'>{{todo.name}}\
-   <span :class=\"classChoose\" @click=\"updateStatus\" >{{moneyChoose}}</span>\
-   <people-list v-bind:people-list=\"peopleList\"></people-list>\
+  props:['todo'],
+  template: '<li class=\'todo-item\'>\
+   <span class=\"todo-name\" @click=\"updateName\">{{todo.name}}</span>\
+   <span class=\"money-status\" @click=\"updateMoney\">{{moneyChoose}}</span>\
+   <span :class=\"classChoose\" @click=\"updateStatus\" ></span>\
+   <people-list></people-list>\
+   <span class=\"glyphicon glyphicon-trash trash-can\" @click=\"deleteContent\"></span>\
   </li>',
   computed: {
     classChoose: function () {
@@ -32,18 +32,75 @@ Vue.component('todo-item', {
       else return 'todo-status undone'
     },
     moneyChoose: function () {
-      if(this.todo.money == -1) return '';
-      else return this.todo.money;
+      if(this.todo.money == 0) return '+';
+      else return this.todo.money + '¥';
     }
   },
   methods: {
     updateStatus: function () {
-      this.$emit('update-status', this.todo)
+      //this.$emit('update-status', this.todo)
+      var todo = this.todo;
+      todo.done = !todo.done
+      this.$store.commit('updateElement', todo);
       console.log('click activate')
+    },
+    deleteContent: function () {
+      this.$store.commit('deleteElement', this.todo);
+      //this.$emit('delete-todo', this.todo)
+    },
+    updateMoney: function (ev) {
+      var $el = $(ev.target);
+      var $input = $('<input type=\"number\" class=\"money-status update\"/>').val(this.todo.money == 0 ? '' : this.todo.money);
+      $el.replaceWith($input);
+
+      var save = () => {
+        var new_text = $input.val();
+        var next_money = 0;
+        if (!new_text.isEmpty()) next_money = parseInt(new_text);
+        //this.$emit('update-money', {id:this.todo.id, money:next_money})
+        var todo = this.todo
+        todo.money = next_money;
+        this.$store.commit('updateElement', todo);
+        $input.replaceWith($el);
+      }
+
+      $input.one('blur enter', save).focus();
+      $input.keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            save();
+        }
+      }).focus();
+    },
+    updateName: function (ev) {
+      console.log(ev.target);
+      var $el = $(ev.target);
+      var prev_name = this.todo.name;
+      var $input = $('<input type=\"text\" class=\"todo-name update\"/>').val(prev_name);
+      $el.replaceWith($input);
+
+      var save = () => {
+        var new_text = $input.val();
+        var next_name = '';
+        if (new_text.isEmpty()) next_name = prev_name;
+        else next_name = new_text;
+        var todo = this.todo
+        todo.name = next_name;
+        this.$store.commit('updateElement', todo);
+        $input.replaceWith($el);
+      }
+
+      $input.one('blur enter', save).focus();
+      $input.keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            save();
+        }
+      }).focus();
     }
   },
   created() {
-    //console.log(this.peopleList)
+    console.log(this.$store.state)
   }
 })
 
@@ -52,34 +109,25 @@ $(document).ready(() => {
   var todolist = new Vue({
     el: '#todolist',
     data: {
-      jobs: [
-        {id:0, name: "test1", money:-1, done: false},
-        {id:1, name: "test2", money:100, done: true}
-      ],
       newName: '',
-      max_id: 1,
-      peopleList: ['John', 'Pat']
     },
+    store,
     methods: {
       submit: function () {
         if(!this.newName.isEmpty()){
           this.max_id++;
-          this.jobs.push({id: this.max_id, name:this.newName, done: false})
+          this.$store.commit('addElement', {id: this.max_id, name:this.newName, money: 0, done: false});
           this.newName = ''
         }
-      },
-      updateStatus: function (data) {
-        var id = data.id;
-        var idx = -1;
-        var jobs = this.jobs;
-        for(var i = 0; i < jobs.length; i++){
-          if(jobs[i].id == id){
-            idx = i;
-            break;
-          }
-        }
-        this.jobs[idx].done = !this.jobs[idx].done;
       }
-    }
+    },
+
+    computed: {
+      jobs () {
+        return this.$store.state.jobs;
+      }
+    },
   })
+
+
 })

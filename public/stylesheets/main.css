@@ -61,7 +61,6 @@
 }
 
 .todo-item {
-    cursor: pointer;
     position: relative;
     padding: 12px 8px 12px 40px;
     background: #eee;
@@ -79,8 +78,13 @@
     background: #f9f9f9;
 }
 
+.money-status {
+  position: absolute;
+  right: 45%;
+}
 
 .todo-status {
+  cursor: pointer;
   position: absolute;
   right: 30%;
   top: 0%;
@@ -109,5 +113,19 @@
 
 .people-list{
   position: absolute;
-  right: 15%;
+  right: 10%;
+  width: 15%;
+  top: 10%;
+}
+
+.trash-can{
+  cursor: pointer;
+  position: absolute;
+  right: 5%;
+  vertical-align: middle;
+  line-height: 250%;
+}
+
+.trash-can:hover {
+  color: #e51429;
 }
