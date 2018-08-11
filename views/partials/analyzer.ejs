@@ -1,0 +1,11 @@
+<h1>Analyzer</h1>
+<div id="analyzer">
+    <ol>
+        <todo-item
+          v-for="item in payList"
+          v-bind:todo="item"
+          v-bind:key="item.id"
+          >
+        </todo-item>
+      </ol>
+</div>

@@ -5,7 +5,7 @@ String.prototype.isEmpty = function() {
 Vue.component('v-select', VueSelect.VueSelect);
 
 Vue.component('people-list', {
-  template: '<v-select multiple class=\"people-list\" :options=\"peopleList\" label=\"name\">\
+  template: '<v-select class=\"people-list\" :options=\"peopleList\" label=\"name\">\
     </v-select>',
   computed: {
     peopleList: function () {
@@ -127,6 +127,22 @@ $(document).ready(() => {
         return this.$store.state.jobs;
       }
     },
+  })
+
+  var analyzer = new Vue({
+    el: '#analyzer',
+    data: {},
+    store,
+
+    computed: {
+      payList: function () {
+        var done_task_withm = this.$store.state.jobs.filter(x => x.done & (x.money != 0) & x.resp != x.acted);
+        var task_list = done_task_withm.map((x, i) => {
+          return {id:i, name: x.resp + '→' + x.acted, money:x.money, done:false}
+        })
+        return task_list;
+      }
+    }
   })
 
 
