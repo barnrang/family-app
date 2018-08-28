@@ -24,6 +24,7 @@ Vue.component('todo-item', {
    <span class=\"money-status\" @click=\"updateMoney\">{{moneyChoose}}</span>\
    <span :class=\"classChoose\" @click=\"updateStatus\" ></span>\
    <people-list></people-list>\
+   <people-list></people-list>\
    <span class=\"glyphicon glyphicon-trash trash-can\" @click=\"deleteContent\"></span>\
   </li>',
   computed: {
@@ -114,9 +115,10 @@ $(document).ready(() => {
     store,
     methods: {
       submit: function () {
+        console.log("add item")
         if(!this.newName.isEmpty()){
-          this.max_id++;
-          this.$store.commit('addElement', {id: this.max_id, name:this.newName, money: 0, done: false});
+          this.$store.state.max_id++;
+          this.$store.commit('addElement', {id: this.$store.state.max_id, name:this.newName, money: 0, done: false});
           this.newName = ''
         }
       }

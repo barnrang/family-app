@@ -4,7 +4,7 @@ const findIdx = (data, jobs) => {
     var id = data.id;
     for(var i = 0; i < jobs.length; i++){
         if(jobs[i].id == id){
-            return id
+            return i
         }            
     }
 }
